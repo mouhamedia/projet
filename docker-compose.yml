@@ -1,0 +1,37 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: famillereligieuse_app
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./storage:/var/www/html/storage
+    depends_on:
+      - db
+    networks:
+      - fr_network
+
+  db:
+    image: mysql:8.0
+    container_name: famillereligieuse_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: famille_religieuse
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - fr_network
+
+networks:
+  fr_network:
+    driver: bridge
+
+volumes:
+  db_data:
