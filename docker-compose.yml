@@ -1,12 +1,13 @@
+version: '3.8'
+
 services:
+  # Moteur PHP
   app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: famillereligieuse_app
     restart: unless-stopped
-    ports:
-      - "8000:80"
     volumes:
       - .:/var/www/html
       - ./storage:/var/www/html/storage
@@ -15,6 +16,22 @@ services:
     networks:
       - fr_network
 
+  # Serveur Web Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: famillereligieuse_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - fr_network
+
+  # Base de données MySQL
   db:
     image: mysql:8.0
     container_name: famillereligieuse_db
@@ -22,10 +39,8 @@ services:
     environment:
       MYSQL_DATABASE: famille_religieuse
       MYSQL_ROOT_PASSWORD: root_password
-    ports:
-      - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - fr_db_data:/var/lib/mysql
     networks:
       - fr_network
 
@@ -34,4 +49,4 @@ networks:
     driver: bridge
 
 volumes:
-  db_data:
+  fr_db_data:
