@@ -12,11 +12,11 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @forelse($messages as $message)
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition duration-300">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition duration-300 flex flex-col">
                 
+                {{-- Partie Visuelle --}}
                 @if($message->video_url)
                     @php
-                        // Extraction de l'ID YouTube pour l'affichage
                         $videoId = null;
                         if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i', $message->video_url, $matches)) {
                             $videoId = $matches[1];
@@ -43,7 +43,8 @@
                     </div>
                 @endif
                 
-                <div class="p-6">
+                {{-- Contenu --}}
+                <div class="p-6 flex flex-col flex-grow">
                     <div class="flex items-center text-xs text-gold font-bold mb-3 uppercase tracking-widest">
                         <span class="bg-gold/10 px-2 py-1 rounded">
                             {{ $message->video_url ? 'Médiathèque' : 'Communiqué' }}
@@ -52,13 +53,14 @@
                     </div>
                     
                     <h2 class="text-2xl font-bold text-gray-800 mb-3">{{ $message->title }}</h2>
-                    <p class="text-gray-600 leading-relaxed mb-6">
-                        {{ Str::limit($message->content, 150) }}
+                    <p class="text-gray-600 leading-relaxed mb-6 flex-grow">
+                        {{ Str::limit($message->content, 120) }}
                     </p>
                     
-                    <a href="#" class="text-islamic font-bold hover:text-gold transition flex items-center">
+                    {{-- CORRECTION ICI : Le lien dynamique --}}
+                    <a href="{{ route('actualites.show', $message->id) }}" class="group text-islamic font-bold hover:text-gold transition flex items-center">
                         Lire la suite 
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </a>

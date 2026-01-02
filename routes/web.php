@@ -25,12 +25,18 @@ Route::get('/presentation', function() {
     return view('pages.presentation'); 
 })->name('presentation');
 
+// --- ACTUALITÉS ---
 Route::get('/actualites', [MessageController::class, 'index'])->name('actualites');
+// AJOUT : Route pour lire un article spécifique
+Route::get('/actualites/{id}', [MessageController::class, 'show'])->name('actualites.show');
+
+// --- MÉDIATHÈQUE & AUTRES ---
 Route::get('/videos', [VideoController::class, 'index'])->name('videos');
 Route::get('/videos/{video}', [VideoController::class, 'show'])->name('videos.show');
 Route::get('/photos', [PhotoController::class, 'index'])->name('photos');
 Route::get('/cotisations', [CotisationController::class, 'index'])->name('cotisations');
 
+// --- CONTACT ---
 Route::get('/contact', function() { 
     return view('pages.contact'); 
 })->name('contact');
@@ -58,10 +64,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         return view('admin.dashboard', compact('countMessages', 'countVideos', 'countAdmins')); 
     })->name('dashboard');
 
-    // USERS : On utilise resource pour index, store, update, destroy
+    // USERS
     Route::resource('users', UserController::class)->except(['show', 'create', 'edit']);
 
-    // VIDEOS : adminIndex pour la liste, resource pour le reste
+    // VIDEOS
     Route::get('/videos', [VideoController::class, 'adminIndex'])->name('videos.index');
     Route::resource('videos', VideoController::class)->except(['index']);
 

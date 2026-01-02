@@ -106,3 +106,6 @@ projet-famille-religieuse/
 ├── composer.json
 └── .env
 
+"Super Admin";
+$user->email = "admin@famille.sn";
+$user->password = Hash::make("admin123");
