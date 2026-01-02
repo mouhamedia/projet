@@ -26,10 +26,11 @@ Route::get('/presentation', function() {
 })->name('presentation');
 
 // --- ACTUALITÉS ---
-Route::get('/actualites', [MessageController::class, 'index'])->name('actualites.index');
-// AJOUT : Route pour lire un article spécifique
-Route::get('/actualites/{id}', [MessageController::class, 'show'])->name('actualites.show');
+// Correction : on utilise 'actualites' au lieu de 'actualites.index'
+Route::get('/actualites', [MessageController::class, 'index'])->name('actualites');
 
+// Route pour lire un article spécifique
+Route::get('/actualites/{id}', [MessageController::class, 'show'])->name('actualites.show');
 // --- MÉDIATHÈQUE & AUTRES ---
 Route::get('/videos', [VideoController::class, 'index'])->name('videos');
 Route::get('/videos/{video}', [VideoController::class, 'show'])->name('videos.show');
