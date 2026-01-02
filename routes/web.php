@@ -26,7 +26,7 @@ Route::get('/presentation', function() {
 })->name('presentation');
 
 // --- ACTUALITÉS ---
-Route::get('/actualites', [MessageController::class, 'index'])->name('actualites');
+Route::get('/actualites', [MessageController::class, 'index'])->name('actualites.index');
 // AJOUT : Route pour lire un article spécifique
 Route::get('/actualites/{id}', [MessageController::class, 'show'])->name('actualites.show');
 
