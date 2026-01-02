@@ -83,12 +83,13 @@ class MessageController extends Controller
         $message->delete();
         return redirect()->route('admin.messages.index')->with('success', 'Suppression réussie');
     }
-    public function show($id)
-{
-    // On récupère le message par son ID ou on renvoie une erreur 404
-    $message = Message::findOrFail($id); 
 
-    // On retourne la vue de détail (que nous allons créer juste après)
-    return view('actualite-detail', compact('message'));
-}
+    public function show($id)
+    {
+        // On récupère le message par son ID ou on renvoie une erreur 404
+        $message = Message::findOrFail($id); 
+
+        // CORRECTION : On précise le dossier 'pages.' car le fichier est dans resources/views/pages/
+        return view('pages.actualite-detail', compact('message'));
+    }
 }
